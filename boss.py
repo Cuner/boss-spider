@@ -13,6 +13,37 @@ import random
 import time
 import os
 
+# 获取求职牛人信息列表html
+def getJobSeekersHtml( page, headers ):
+    # 这里是你的求职推荐列表
+    url = 'https://www.zhipin.com/boss/recommend/geeks.json?status=0&jobid=e0d19d8d1b4dc0181Hx73d-1FVU~&salary=-1&experience=-1&degree=-1&intention=-1&_=1555672434700&page=' + str(page)
+    result = requests.get(url, headers=headers).json()
+    html = result['htmlList']
+    return html
+
+# 与牛人打招呼
+def greetToJobSeeker( uid, jid, expectId, lid, suid, headers ):
+    params = {
+        'gids': uid,
+        'jids': jid,
+        'expectIds': expectId,
+        'lids': lid,
+        'suids': suid
+    }
+    greetResult = requests.post('https://www.zhipin.com/chat/batchAddRelation.json', headers=headers, data=params).json()
+    print(greetResult)
+
+# 向牛人发送简历申请
+def requestResumeToJobSeeker( uid ):
+    requestResumeResult = requests.get('https://www.zhipin.com/chat/requestResume.json?to=' + str(uid) + '&_=' + str(int(round(time.time() * 1000))), headers=headers).json()
+    print(requestResumeResult)
+
+# 接受牛人简历
+def acceptResumeOfJobSeeker( uid ):
+    acceptResumeResuslt = requests.get('https://www.zhipin.com/chat/acceptResume.json?to=' + str(uid) + '&mid=' + str(38834193982) + '&aid=41&action=0&extend=&_=' + str(int(round(time.time() * 1000))), headers=headers).json()
+    print(acceptResumeResuslt)
+
+# 获取绝对路径
 os.chdir(sys.path[0])
 path = os.getcwd()
 
@@ -22,7 +53,6 @@ fSchool = open(path + '/school.txt','r')
 for line in fSchool.readlines() :
     data = line.split('|')
     schoolRank[data[1]] = data[0]
-#print(schoolRank)
 
 # 读取本地cookie
 f = open(path + '/cookie.txt','r')
@@ -43,12 +73,9 @@ loop = True
 page = 1
 while loop:
     print('--------------------' + str(page))
-    url = 'https://www.zhipin.com/boss/recommend/geeks.json?status=0&jobid=e0d19d8d1b4dc0181Hx73d-1FVU~&salary=-1&experience=-1&degree=-1&intention=-1&_=1555672434700&page=' + str(page)
 
-    result = requests.get(url, headers=headers).json()
-
-    html = result['htmlList']
-    # print(html)
+    # 获取求职牛人信息列表html
+    html = getJobSeekersHtml(page, headers)
 
     soup = bs4.BeautifulSoup(html, 'html.parser')
 
@@ -119,6 +146,8 @@ while loop:
                     continue
             else:
                 continue
+        else:
+            continue
 
         # 学校过滤
         hitSchool = False
@@ -132,34 +161,25 @@ while loop:
 
 
         print('#####' + contactStatus + '#####')
-        print(location)
-        print(workTime)
-        print(education)
-        print(age)
-        print(workStatus)
-        print(activeStatus)
-        print(salary)
-        print(name)
-        print(experience)
-        print(school)
+        print('所在地:' + location)
+        print('工作年限:' + workTime)
+        print('学历:' + education)
+        print('年龄:' + age)
+        print('求职状态:' + workStatus)
+        print('活跃状态:' + activeStatus)
+        print('期望薪资:' + salary)
+        print('姓名:' + name)
+        print('工作经历:' + experience)
+        print('毕业学校:' + school)
 
         if contactStatus == '打招呼':
-            params = {
-                'gids': uid,
-                'jids': jid,
-                'expectIds': expectId,
-                'lids': lid,
-                'suids': suid
-            }
-            greetResult = requests.post('https://www.zhipin.com/chat/batchAddRelation.json', headers=headers, data=params).json()
-            print(greetResult)
-            
-
+            # 与牛人打招呼
+            greetToJobSeeker(uid, jid, expectId, lid, suid, headers)
         if contactStatus == '继续沟通':
-            requestResumeResult = requests.get('https://www.zhipin.com/chat/requestResume.json?to=' + str(uid) + '&_=' + str(int(round(time.time() * 1000))), headers=headers).json()
-            print(requestResumeResult)
-            acceptResumeResuslt = requests.get('https://www.zhipin.com/chat/acceptResume.json?to=' + str(uid) + '&mid=' + str(38834193982) + '&aid=41&action=0&extend=&_=' + str(int(round(time.time() * 1000))), headers=headers).json()
-            print(acceptResumeResuslt)
+            # 向牛人发送简历申请
+            requestResumeToJobSeeker(uid)
+            # 接受牛人简历
+            acceptResumeOfJobSeeker(uid)
 
     page = page + 1
     randomTime = random.uniform(1,3)
