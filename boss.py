@@ -11,17 +11,21 @@ import sys
 import re
 import random
 import time
+import os
+
+os.chdir(sys.path[0])
+path = os.getcwd()
 
 # 学校排名数据初始化
 schoolRank = dict()
-fSchool = open('school.txt','r')
+fSchool = open(path + '/school.txt','r')
 for line in fSchool.readlines() :
     data = line.split('|')
     schoolRank[data[1]] = data[0]
 #print(schoolRank)
 
 # 读取本地cookie
-f = open('cookie.txt','r')
+f = open(path + '/cookie.txt','r')
 cookie = f.readline()
 f.close()  
 
