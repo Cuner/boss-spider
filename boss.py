@@ -16,7 +16,7 @@ import os
 # 获取求职牛人信息列表html
 def getJobSeekersHtml( page, headers ):
     # 这里是你的求职推荐列表
-    url = 'https://www.zhipin.com/boss/recommend/geeks.json?status=0&jobid=e0d19d8d1b4dc0181Hx73d-1FVU~&salary=-1&experience=-1&degree=-1&intention=-1&_=1555672434700&page=' + str(page)
+    url = 'https://www.zhipin.com/boss/recommend/geeks.json?status=0&jobid=9488aeda0e36a75203Ry39-9F1c~&salary=-1&experience=-1&degree=-1&intention=-1&_=1556612495320&page=' + str(page)
     result = requests.get(url, headers=headers).json()
     html = result['htmlList']
     return html
@@ -140,13 +140,17 @@ while loop:
         if re.search(r"[0-9]{1,2}", workTime) is not None:
             if education == '本科':
                 if int(re.search(r"[0-9]{1,2}", workTime).group(0)) < 3 :
+                    print("过滤：本科未达到三年")
                     continue
             elif education == '硕士':
                 if int(re.search(r"[0-9]{1,2}", workTime).group(0)) < 2 :
+                    print("过滤：硕士未达到两年")
                     continue
             else:
+                print("过滤：学历未达到要求")
                 continue
         else:
+            print("过滤：学历未达到要求")
             continue
 
         # 学校过滤
@@ -155,8 +159,10 @@ while loop:
             if school.find(k) != -1:
                 hitSchool = True
                 if int(v) < 300:
+                    print("过滤：学校未达前300")
                     continue
         if not hitSchool :
+            print("过滤：学校未达一本")
             continue
 
 
