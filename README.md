@@ -31,7 +31,7 @@ pip3 install bs4
 
 - 登陆进去后，点击左侧导航栏上的”推荐牛人“ 
 - 页面顶部选取对应的职位
-- - 右键”检查“->Network->向下滑动页面至下一页->找到"geeks.json"->获取完整的RequestUrl，例如我的就是https://www.zhipin.com/boss/recommend/geeks.json?page=2&status=0&jobid=9488aeda0e36a75203Ry39-9F1c~&salary=-1&experience=-1&degree=-1&intention=-1&_=1556612803056
+- - 右键”检查“->Network->向下滑动页面至下一页->触发下一页请求并找到"geeks.json"->获取完整的RequestUrl，例如我的就是https://www.zhipin.com/boss/recommend/geeks.json?page=2&status=0&jobid=9488aeda0e36a75203Ry39-9F1c~&salary=-1&experience=-1&degree=-1&intention=-1&_=1556612803056
 - 将得到的链接按照一定的格式（处理页面参数page），替换boss.py中第19行的链接
 
 6. 自定义：脚本里面定义了些过滤规则
