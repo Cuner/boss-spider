@@ -21,6 +21,8 @@ def getJobSeekersHtml( page, headers ):
     html = result['htmlList']
     return html
 
+# https://www.zhipin.com/wapi/zpboss/h5/boss/recommendGeekList?jobid=9488aeda0e36a75203Ry39-9F1c~&status=0&refresh=1562311420189&source=1&switchJobFrequency=-1&salary=0&age=-1&school=-1&degree=0&experience=0&intention=-1&jobId=9488aeda0e36a75203Ry39-9F1c~&page=1&_=1562311420494
+
 # 与牛人打招呼
 def greetToJobSeeker( uid, jid, expectId, lid, suid, headers ):
     params = {
@@ -48,11 +50,18 @@ os.chdir(sys.path[0])
 path = os.getcwd()
 
 # 学校排名数据初始化
-schoolRank = dict()
-fSchool = open(path + '/school.txt','r')
-for line in fSchool.readlines() :
-    data = line.split('|')
-    schoolRank[data[1]] = data[0]
+school985 = []
+fSchool985 = open(path + '/985.txt','r')
+for line in fSchool985.readlines() :
+    school985.append(line.strip())
+
+school211 = []
+fSchool211 = open(path + '/211.txt','r')
+for line in fSchool211.readlines() :
+    school211.append(line.strip())
+
+print(school985)
+print(school211)
 
 # 读取本地cookie
 f = open(path + '/cookie.txt','r')
@@ -155,14 +164,15 @@ while loop:
 
         # 学校过滤
         hitSchool = False
-        for (k,v) in  schoolRank.items():
+        print(school)
+        for k in school985:
             if school.find(k) != -1:
                 hitSchool = True
-                if int(v) < 300:
-                    print("过滤：学校未达前300")
-                    continue
+        for l in school211:
+            if school.find(l) != -1:
+                hitSchool = True
         if not hitSchool :
-            print("过滤：学校未达一本")
+            print("过滤：学校未达985 OR 211")
             continue
 
 
