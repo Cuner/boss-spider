@@ -8,20 +8,13 @@
 brew install python3
 ```
 
-2. 安装pip3
-
-
-```
-brew install pip3
-```
-
-3. 安装依赖的python库bs4
+2. 安装依赖的python库bs4
 
 ```
 pip3 install bs4
 ```
 
-4. 获取cookie
+3. 获取cookie
 
 - chrome登陆[boss直聘](https://www.zhipin.com) 
 - 右键”检查“->Network->选中某个有效请求，[举例](https://www.zhipin.com/boss/recommend/conditions.json)->Headers->复制"cookie:"后面的字符串
