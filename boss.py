@@ -1,8 +1,5 @@
 #!/usr/bin/env python3
 
-"""
-Use this script to push switch to buy2
-"""
 import json
 from urllib import parse
 import bs4
@@ -16,7 +13,8 @@ import os
 # 获取求职牛人信息列表html
 def getJobSeekersHtml( page, headers ):
     # 这里是你的求职推荐列表
-    url = 'https://www.zhipin.com/boss/recommend/geeks.json?status=0&jobid=9488aeda0e36a75203Ry39-9F1c~&salary=-1&experience=-1&degree=-1&intention=-1&_=1556612495320&page=' + str(page)
+    jobId = '9488aeda0e36a75203Ry39-9F1c~'
+    url = 'https://www.zhipin.com/boss/recommend/geeks.json?status=0&jobid=' + jobid + '&salary=-1&experience=-1&degree=-1&intention=-1&_=1556612495320&page=' + str(page)
     result = requests.get(url, headers=headers).json()
     html = result['htmlList']
     return html
