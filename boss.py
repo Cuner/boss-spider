@@ -15,7 +15,7 @@ jobId = '9488aeda0e36a75203Ry39-9F1c~'
 # 获取求职牛人信息列表html
 def getJobSeekersHtml( page, headers ):
     # 这里是你的求职推荐列表
-    url = 'https://www.zhipin.com/boss/recommend/geeks.json?status=0&jobid=' + jobid + '&salary=-1&experience=-1&degree=-1&intention=-1&_=1556612495320&page=' + str(page)
+    url = 'https://www.zhipin.com/boss/recommend/geeks.json?status=0&jobid=' + jobId + '&salary=-1&experience=-1&degree=-1&intention=-1&_=1556612495320&page=' + str(page)
     result = requests.get(url, headers=headers).json()
     html = result['htmlList']
     return html
