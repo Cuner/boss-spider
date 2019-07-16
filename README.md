@@ -1,7 +1,7 @@
 # boss-spider
 
 ## 脚本使用步骤(mac)
-**推荐使用bossV2.py**
+**bossV2.py容易被限制访问**
 
 1. 安装python3 
 
