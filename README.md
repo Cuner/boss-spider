@@ -9,7 +9,7 @@
 brew install python3
 ```
 
-2. 安装依赖的python库bs4(如果使用bossV2版本，可以不用安装)
+2. 安装依赖的python库bs4
 
 ```
 pip3 install bs4

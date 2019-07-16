@@ -12,58 +12,70 @@ import os
 jobId = '9488aeda0e36a75203Ry39-9F1c~'
 
 # 获取求职牛人信息列表html
-def getJobSeekersList( page, headers ):
+def getJobSeekersList( page, headers, proxies ):
     # 这里是你的求职推荐列表
     url = 'https://www.zhipin.com/wapi/zpboss/h5/boss/recommendGeekList?jobid=' + jobId + '&status=0&refresh=1562311420189&source=1&switchJobFrequency=-1&salary=0&age=-1&school=-1&degree=0&experience=0&intention=-1&jobId=' + jobId + '&_=1562311420494&page=' + str(page)
-    result = requests.get(url, headers=headers).json()
+    print(url)
+    result = requests.get(url, headers=headers, proxies=proxies, timeout=1).json()
     jobSeekersList = result['zpData']['geekList']
     return jobSeekersList
 # 
 
 # 与牛人打招呼
-def greetToJobSeeker( uid, jid, expectId, lid, headers ):
+def greetToJobSeeker( uid, jid, expectId, lid, headers, proxies ):
     params = {
         'gids': uid,
         'jids': jid,
         'expectIds': expectId,
         'lids': lid,
     }
-    greetResult = requests.post('https://www.zhipin.com/chat/batchAddRelation.json', headers=headers, data=params).json()
+    greetResult = requests.post('https://www.zhipin.com/chat/batchAddRelation.json', headers=headers, proxies=proxies, data=params).json()
     print(greetResult)
 
 # 向牛人发送简历申请
-def requestResumeToJobSeeker( uid ):
-    requestResumeResult = requests.get('https://www.zhipin.com/chat/requestResume.json?to=' + str(uid) + '&_=' + str(int(round(time.time() * 1000))), headers=headers).json()
+def requestResumeToJobSeeker( uid, proxies ):
+    requestResumeResult = requests.get('https://www.zhipin.com/chat/requestResume.json?to=' + str(uid) + '&_=' + str(int(round(time.time() * 1000))), headers=headers, proxies=proxies).json()
     print(requestResumeResult)
 
 # 接受牛人简历
-def acceptResumeOfJobSeeker( uid ):
-    acceptResumeResuslt = requests.get('https://www.zhipin.com/chat/acceptResume.json?to=' + str(uid) + '&mid=' + str(38834193982) + '&aid=41&action=0&extend=&_=' + str(int(round(time.time() * 1000))), headers=headers).json()
+def acceptResumeOfJobSeeker( uid, proxies ):
+    acceptResumeResuslt = requests.get('https://www.zhipin.com/chat/acceptResume.json?to=' + str(uid) + '&mid=' + str(38834193982) + '&aid=41&action=0&extend=&_=' + str(int(round(time.time() * 1000))), headers=headers, proxies=proxies).json()
     print(acceptResumeResuslt)
 
 # 获取绝对路径
 os.chdir(sys.path[0])
-path = os.getcwd()
+path = os.path.abspath('.')
+lastPath = os.path.abspath('..')
 
 # 学校排名数据初始化
 school985 = []
-fSchool985 = open(path + '/985.txt','r')
+fSchool985 = open(lastPath + '/985.txt','r')
 for line in fSchool985.readlines() :
     school985.append(line.strip())
+fSchool985.close();
 
 school211 = []
-fSchool211 = open(path + '/211.txt','r')
+fSchool211 = open(lastPath + '/211.txt','r')
 for line in fSchool211.readlines() :
     school211.append(line.strip())
+fSchool211.close()
 
 print(school985)
 print(school211)
 
 # 读取本地cookie
-f = open(path + '/cookie.txt','r')
-cookie = f.readline()
-f.close()  
+fCookie = open(lastPath + '/cookie.txt','r')
+cookie = fCookie.readline()
+fCookie.close()
 
+# 读取代理ip
+proxyList = []
+fProxyList = open(path + '/proxyList.txt','r')
+for line in fProxyList.readlines() :
+    proxyList.append(line.strip())
+fProxyList.close();
+
+# 写死的header
 headers = {
     'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
     'accept-encoding': 'gzip, deflate, br',
@@ -77,12 +89,27 @@ headers = {
 loop = True
 page = 1
 while loop:
+    if page > 30 :
+        loop = False
     print('--------------------' + str(page))
 
+    # 随机选择爬虫代理
+    proxyIp = random.choice(proxyList)
+    if proxyIp.find('http://') != -1 :
+        proxies = {'http': proxyIp}
+    elif proxyIp.find('https://') != -1 :
+        proxies = {'https' : proxyIp}
+    
     # 获取求职牛人信息列表html
-    jobSeekersList = getJobSeekersList(page, headers)
+    try :
+        jobSeekersList = getJobSeekersList(page, headers, proxies)
+    except Exception as e:
+        if (str(e).find('www.zhipin.com') != -1) :
+            continue
+        print(str(e))
+        break
 
-    if len(jobSeekersList) < 15:
+    if len(jobSeekersList) < 15 :
         loop = False
 
     for jobSeeker in jobSeekersList :
@@ -158,12 +185,12 @@ while loop:
 
         if contactStatus == '打招呼':
             # 与牛人打招呼
-            greetToJobSeeker( geekId, jobId, expectId, lid, headers )
+            greetToJobSeeker( geekId, jobId, expectId, lid, headers, proxies)
         if contactStatus == '继续沟通':
             # 向牛人发送简历申请
-            requestResumeToJobSeeker(geekId)
+            requestResumeToJobSeeker(geekId, proxies)
             # 接受牛人简历
-            acceptResumeOfJobSeeker(geekId)
+            acceptResumeOfJobSeeker(geekId, proxies)
 
     page = page + 1
     randomTime = random.uniform(1,3)

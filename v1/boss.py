@@ -46,26 +46,29 @@ def acceptResumeOfJobSeeker( uid ):
 
 # 获取绝对路径
 os.chdir(sys.path[0])
-path = os.getcwd()
+path = os.path.abspath('.')
+lastPath = os.path.abspath('..')
 
 # 学校排名数据初始化
 school985 = []
-fSchool985 = open(path + '/985.txt','r')
+fSchool985 = open(lastPath + '/985.txt','r')
 for line in fSchool985.readlines() :
     school985.append(line.strip())
+fSchool985.close();
 
 school211 = []
-fSchool211 = open(path + '/211.txt','r')
+fSchool211 = open(lastPath + '/211.txt','r')
 for line in fSchool211.readlines() :
     school211.append(line.strip())
+fSchool211.close();
 
 print(school985)
 print(school211)
 
 # 读取本地cookie
-f = open(path + '/cookie.txt','r')
-cookie = f.readline()
-f.close()  
+fCookie = open(lastPath + '/cookie.txt','r')
+cookie = fCookie.readline()
+fCookie.close()  
 
 headers = {
     'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
