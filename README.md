@@ -1,7 +1,7 @@
 # boss-spider
 
 ## 脚本使用步骤(mac)
-**bossV2.py容易被限制访问**
+**bossV2.py容易被限制访问，所以每次访问间隔很长**
 
 1. 安装python3 
 
