@@ -4,18 +4,20 @@ import json
 from urllib import parse
 import requests
 import sys
+import webbrowser
 import re
 import random
 import time
 import os
 
 jobId = '9488aeda0e36a75203Ry39-9F1c~'
+url = ''
 
 # 获取求职牛人信息列表html
 def getJobSeekersList( page, headers, proxies ):
     # 这里是你的求职推荐列表
+    global url
     url = 'https://www.zhipin.com/wapi/zpboss/h5/boss/recommendGeekList?jobid=' + jobId + '&status=0&refresh=1562311420189&source=1&switchJobFrequency=-1&salary=0&age=-1&school=-1&degree=0&experience=0&intention=-1&jobId=' + jobId + '&_=1562311420494&page=' + str(page)
-    print(url)
     result = requests.get(url, headers=headers, proxies=proxies, timeout=1).json()
     jobSeekersList = result['zpData']['geekList']
     return jobSeekersList
@@ -107,6 +109,9 @@ while loop:
         if (str(e).find('www.zhipin.com') != -1) :
             continue
         print(str(e))
+        chrome=webbrowser.get('chrome')
+
+        chrome.open(url)
         break
 
     if len(jobSeekersList) < 15 :
@@ -147,28 +152,17 @@ while loop:
         # 毕业学校
         school = jobSeekerInfo['geekEdu']['school']
 
-        print('#####' + contactStatus + '#####')
-        print('所在地:' + location)
-        print('工作年限:' + workTime)
-        print('学历:' + education)
-        print('年龄:' + age)
-        print('求职状态:' + workStatus)
-        print('活跃状态:' + activeStatus)
-        print('期望薪资:' + salary)
-        print('姓名:' + name)
-        print('毕业学校:' + school)
-
         # 学历过滤
         if education == '本科':
             if int(re.search(r"[0-9]{1,2}", workTime).group(0)) < 3 :
-                print("----------------------------过滤：本科未达到三年----------------------------")
+                print("过滤：本科未达到三年")
                 continue
         elif education == '硕士':
             if int(re.search(r"[0-9]{1,2}", workTime).group(0)) < 2 :
-                print("----------------------------过滤：硕士未达到两年----------------------------")
+                print("过滤：硕士未达到两年")
                 continue
         else:
-            print("----------------------------过滤：学历未达到要求----------------------------")
+            print("过滤：学历未达到要求")
             continue
 
         # 学校过滤
@@ -180,8 +174,19 @@ while loop:
             if school == l:
                 hitSchool = True
         if not hitSchool :
-            print("----------------------------过滤：学校未达985 OR 211----------------------------")
+            print("过滤：学校未达985 OR 211")
             continue
+
+        print('#####' + contactStatus + '#####')
+        print('所在地:' + location)
+        print('工作年限:' + workTime)
+        print('学历:' + education)
+        print('年龄:' + age)
+        print('求职状态:' + workStatus)
+        print('活跃状态:' + activeStatus)
+        print('期望薪资:' + salary)
+        print('姓名:' + name)
+        print('毕业学校:' + school)
 
         if contactStatus == '打招呼':
             # 与牛人打招呼
@@ -193,5 +198,5 @@ while loop:
             acceptResumeOfJobSeeker(geekId, proxies)
 
     page = page + 1
-    randomTime = random.uniform(1,3)
+    randomTime = random.uniform(30,100)
     time.sleep(randomTime)

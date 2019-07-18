@@ -90,6 +90,8 @@ while loop:
 
     soup = bs4.BeautifulSoup(html, 'html.parser')
 
+    print(len(soup.find_all('li')))
+
     if len(soup.find_all('li')) < 15:
         loop = False
 
