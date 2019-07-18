@@ -11,11 +11,14 @@ import time
 import os
 
 jobId = '9488aeda0e36a75203Ry39-9F1c~'
+if (len(sys.argv) > 1) :
+	jobId = sys.argv[1]
 
 # 获取求职牛人信息列表html
 def getJobSeekersHtml( page, headers ):
     # 这里是你的求职推荐列表
     url = 'https://www.zhipin.com/boss/recommend/geeks.json?status=0&jobid=' + jobId + '&salary=-1&experience=-1&degree=-1&intention=-1&_=1556612495320&page=' + str(page)
+    print(url)
     result = requests.get(url, headers=headers).json()
     html = result['htmlList']
     return html
@@ -97,6 +100,8 @@ while loop:
 
     for li in soup.find_all('li') :
         # 联系状态
+        if li.find('div', attrs={'class': 'sider-op'}) is None :
+        	continue
         contactStatusButton = li.find('div', attrs={'class': 'sider-op'}).find('button', attrs={'class': 'btn btn-greet'})
         if contactStatusButton is None:
             contactStatusButton = li.find('div', attrs={'class': 'sider-op'}).find('button', attrs={'class': 'btn btn-continue'})

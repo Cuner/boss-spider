@@ -11,6 +11,10 @@ import time
 import os
 
 jobId = '9488aeda0e36a75203Ry39-9F1c~'
+
+if (len(sys.argv) > 1) :
+    jobId = sys.argv[1]
+
 url = ''
 
 # 获取求职牛人信息列表html
@@ -18,6 +22,7 @@ def getJobSeekersList( page, headers, proxies ):
     # 这里是你的求职推荐列表
     global url
     url = 'https://www.zhipin.com/wapi/zpboss/h5/boss/recommendGeekList?jobid=' + jobId + '&status=0&refresh=1562311420189&source=1&switchJobFrequency=-1&salary=0&age=-1&school=-1&degree=0&experience=0&intention=-1&jobId=' + jobId + '&_=1562311420494&page=' + str(page)
+    print(url)
     result = requests.get(url, headers=headers, proxies=proxies, timeout=1).json()
     jobSeekersList = result['zpData']['geekList']
     return jobSeekersList
