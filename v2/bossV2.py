@@ -119,7 +119,7 @@ while loop:
         chrome.open(url)
         break
 
-    if len(jobSeekersList) < 15 :
+    if len(jobSeekersList) < 1 :
         loop = False
 
     for jobSeeker in jobSeekersList :
@@ -203,5 +203,5 @@ while loop:
             acceptResumeOfJobSeeker(geekId, proxies)
 
     page = page + 1
-    randomTime = random.uniform(30,100)
+    randomTime = random.uniform(120,360)
     time.sleep(randomTime)

@@ -95,7 +95,7 @@ while loop:
 
     print(len(soup.find_all('li')))
 
-    if len(soup.find_all('li')) < 15:
+    if len(soup.find_all('li')) < 1:
         loop = False
 
     for li in soup.find_all('li') :
