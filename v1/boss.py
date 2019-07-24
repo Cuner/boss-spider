@@ -86,14 +86,12 @@ headers = {
 loop = True
 page = 1
 while loop:
-    print('--------------------' + str(page))
+    print('--------------------page:' + str(page))
 
     # 获取求职牛人信息列表html
     html = getJobSeekersHtml(page, headers)
 
     soup = bs4.BeautifulSoup(html, 'html.parser')
-
-    print(len(soup.find_all('li')))
 
     if len(soup.find_all('li')) < 1:
         loop = False
@@ -133,7 +131,10 @@ while loop:
         # 年龄 25岁
         age = spanList[3].string
         # 工作状态 在职-考虑机会
-        workStatus = spanList[4].string
+        if (len(spanList) >= 5) :
+            workStatus = spanList[4].string
+        else :
+            workStatus = '无'
         # 活跃状态 刚刚活跃
         if (len(spanList) >= 6) :
             activeStatus = spanList[5].string
@@ -151,37 +152,41 @@ while loop:
             experience = '无'
         else :
             experience = div2.find('div', attrs={'class': 'text'}).find('p', attrs={'class': 'experience'}).get_text().strip()
-        # 毕业学校
+        # 毕业学校 东北大学•计算机科学与技术
         school = div2.find('div', attrs={'class': 'text'}).find_all('p')[2].get_text().strip()
+        if school.find('•') != -1 :
+            school = school[0:school.index('•')].strip() #东北大学
 
         # 学历过滤
         if re.search(r"[0-9]{1,2}", workTime) is not None:
+            if int(re.search(r"[0-9]{1,2}", workTime).group(0)) > 10 :
+                print("【过滤】：学历未达到要求|" + education + '|' + workTime)
+                continue
             if education == '本科':
                 if int(re.search(r"[0-9]{1,2}", workTime).group(0)) < 3 :
-                    print("过滤：本科未达到三年")
+                    print("【过滤】：本科未达到三年|" + education + '|' + workTime)
                     continue
             elif education == '硕士':
                 if int(re.search(r"[0-9]{1,2}", workTime).group(0)) < 2 :
-                    print("过滤：硕士未达到两年")
+                    print("【过滤】：硕士未达到两年|" + education + '|' + workTime)
                     continue
             else:
-                print("过滤：学历未达到要求")
+                print("【过滤】：学历未达到要求|" + education + '|' + workTime)
                 continue
         else:
-            print("过滤：学历未达到要求")
+            print("【过滤】：学历未达到要求|" + education + '|' + workTime)
             continue
 
         # 学校过滤
         hitSchool = False
-        print(school)
         for k in school985:
-            if school.find(k) != -1:
+            if school == k:
                 hitSchool = True
         for l in school211:
-            if school.find(l) != -1:
+            if school == l:
                 hitSchool = True
         if not hitSchool :
-            print("过滤：学校未达985 OR 211")
+            print("【过滤】：学校未达985 OR 211|" + school)
             continue
 
 
