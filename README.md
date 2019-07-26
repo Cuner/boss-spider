@@ -1,7 +1,7 @@
 # boss-spider
 
 ## 脚本使用步骤(mac)
-**bossV2.py准确性更高，但是容易被限制访问，所以每次访问间隔很长**
+**建议使用v1版本，v2版本的接口容易被反爬虫限制访问**
 
 1. 安装python3 
 
@@ -40,6 +40,11 @@ python3 boss.py
 或者
 ```
 python3 bossV2.py
+```
+在步骤5中替换的jobId为默认为你推荐牛人的职位id，当你想同时使用多个jobId来运行脚本，可采用指定jobId的方式运行脚本，如下例：
+```
+python3 boss.py 952a3e6bdb3a318e03xy2tq7E1U~
+python3 boss.py 9488aeda0e36a75203Ry39-9F1c~
 ```
 
 8. 人工参与
