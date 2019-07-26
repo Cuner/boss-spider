@@ -18,16 +18,17 @@ pip3 install bs4
 3. 获取cookie
 
 - chrome登陆[boss直聘](https://www.zhipin.com) 
-- 右键”检查“->Network->选中某个有效请求，[举例](https://www.zhipin.com/boss/recommend/conditions.json)->Headers->复制"cookie:"后面的字符串
+- 右键”检查“->Network->选中某个有效请求(请求域名为zhipin.com)->Headers->复制"cookie:"后面的字符串
 - 将复制的cookie信息拷贝到```cookie.txt```中
 
-5. 获取boss直聘上“推荐牛人”数据接口
+5. 获取jobId【一个jobId对应你发布的一个职位，脚本是通过这个职位来获取对应推荐的候选人】
 
-- 登陆进去后，点击左侧导航栏上的”推荐牛人“ 
-- 页面顶部选取对应的职位
-- 右键”检查“->Network->向下滑动页面至下一页->触发下一页请求，根据页面请求获取jobId，替换代码中的jobId（boss.py中的第13行或者bossV2.py的第12行）
+- 登陆进去后，点击左侧导航栏上的“职位管理”，或者直接进入[链接](https://www.zhipin.com/chat/im?mu=%2Fbossweb%2Fjoblist.html)
+- 如图获取对应职位的jobId，替换代码中的jobId（boss.py中的第13行或者bossV2.py的第12行）
 
-6. 自定义：脚本里面定义了些过滤规则
+![获取jobId](jobId.png) 
+
+6. 自定义：脚本里面定义了些过滤规则，没有特殊要求的请忽略
 
 - 学历过滤：本科生三年及以上、研究生两年及以上。
 - 学校过滤：```985.txt 211.txt```中包含了985以及211工程大学。
