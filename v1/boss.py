@@ -159,7 +159,7 @@ while loop:
 
         # 学历过滤
         if re.search(r"[0-9]{1,2}", workTime) is not None:
-            if int(re.search(r"[0-9]{1,2}", workTime).group(0)) > 10 :
+            if int(re.search(r"[0-9]{1,2}", workTime).group(0)) > 8 :
                 print("【过滤】：学历未达到要求|" + education + '|' + workTime)
                 continue
             if education == '本科':
@@ -205,12 +205,14 @@ while loop:
         if contactStatus == '打招呼':
             # 与牛人打招呼
             greetToJobSeeker(uid, jid, expectId, lid, suid, headers)
+            time.sleep(random.uniform(30,40))
         if contactStatus == '继续沟通':
             # 向牛人发送简历申请
             requestResumeToJobSeeker(uid)
             # 接受牛人简历
             acceptResumeOfJobSeeker(uid)
+            time.sleep(random.uniform(30,40))
 
     page = page + 1
-    randomTime = random.uniform(1,3)
+    randomTime = random.uniform(180,240)
     time.sleep(randomTime)
