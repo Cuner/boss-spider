@@ -56,13 +56,13 @@ lastPath = os.path.abspath('..')
 
 # 学校排名数据初始化
 school985 = []
-fSchool985 = open(lastPath + '/985.txt','r')
+fSchool985 = open(lastPath + '/config/985.txt','r')
 for line in fSchool985.readlines() :
     school985.append(line.strip())
 fSchool985.close();
 
 school211 = []
-fSchool211 = open(lastPath + '/211.txt','r')
+fSchool211 = open(lastPath + '/config/211.txt','r')
 for line in fSchool211.readlines() :
     school211.append(line.strip())
 fSchool211.close()
@@ -71,13 +71,13 @@ print(school985)
 print(school211)
 
 # 读取本地cookie
-fCookie = open(lastPath + '/cookie.txt','r')
+fCookie = open(lastPath + '/config/cookie.txt','r')
 cookie = fCookie.readline()
 fCookie.close()
 
 # 读取代理ip
 proxyList = []
-fProxyList = open(path + '/proxyList.txt','r')
+fProxyList = open(lastPath + '/proxy/proxyList.txt','r')
 for line in fProxyList.readlines() :
     proxyList.append(line.strip())
 fProxyList.close();

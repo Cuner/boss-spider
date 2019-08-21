@@ -19,7 +19,7 @@ pip3 install bs4
 
 - chrome登陆[boss直聘](https://www.zhipin.com) 
 - 右键”检查“->Network->选中某个有效请求(请求域名为zhipin.com)->Headers->复制"cookie:"后面的字符串
-- 将复制的cookie信息拷贝到```cookie.txt```中
+- 将复制的cookie信息拷贝到```config/cookie.txt```中
 
 ### 4. 获取jobId【一个jobId对应你发布的一个职位，脚本是通过这个职位来获取对应推荐的候选人】
 

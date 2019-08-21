@@ -3,15 +3,17 @@
 import bs4
 import requests
 import random
+import os
+import sys
 
 if __name__ == '__main__':
     # 获取绝对路径
     os.chdir(sys.path[0])
     path = os.path.abspath('.')
 
-    f = open(path + 'proxyList.txt','w')
+    f = open(path + '/proxyList.txt','w')
     page = 1
-    url = 'https://www.xicidaili.com/wn/' + str(page)
+    url = 'https://www.xicidaili.com/nn/' + str(page)
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36'
     }
@@ -27,4 +29,5 @@ if __name__ == '__main__':
         elif tds[5].text == 'HTTP' :
             f.write('http://' + tds[1].text + ':' + tds[2].text)
             f.write('\r\n')
+        # 检验是否合法
     f.close()
