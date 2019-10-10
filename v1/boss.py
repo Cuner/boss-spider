@@ -10,7 +10,7 @@ import random
 import time
 import os
 
-jobId = '9488aeda0e36a75203Ry39-9F1c~'
+jobId = 'f5add7fcd540d89e0nZz2Nu9FFY~'
 if (len(sys.argv) > 1) :
 	jobId = sys.argv[1]
 
@@ -208,11 +208,11 @@ while loop:
             time.sleep(random.uniform(30,40))
         if contactStatus == '继续沟通':
             # 向牛人发送简历申请
-            requestResumeToJobSeeker(uid)
+            # requestResumeToJobSeeker(uid)
             # 接受牛人简历
-            acceptResumeOfJobSeeker(uid)
-            time.sleep(random.uniform(30,40))
+            # acceptResumeOfJobSeeker(uid)
+            # time.sleep(random.uniform(30,40))
 
     page = page + 1
-    randomTime = random.uniform(180,240)
+    randomTime = random.uniform(180,600)
     time.sleep(randomTime)
