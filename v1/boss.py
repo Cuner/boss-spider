@@ -206,7 +206,7 @@ while loop:
             # 与牛人打招呼
             greetToJobSeeker(uid, jid, expectId, lid, suid, headers)
             time.sleep(random.uniform(30,40))
-        if contactStatus == '继续沟通':
+        # if contactStatus == '继续沟通':
             # 向牛人发送简历申请
             # requestResumeToJobSeeker(uid)
             # 接受牛人简历
