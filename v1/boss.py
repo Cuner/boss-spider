@@ -195,7 +195,7 @@ while loop:
         print('工作年限:' + workTime)
         print('学历:' + education)
         print('年龄:' + age)
-        print('求职状态:' + workStatus)
+        print('求职状态:' + [workStatus, "无"] [workStatus is None])
         print('活跃状态:' + activeStatus)
         print('期望薪资:' + salary)
         print('姓名:' + name)
