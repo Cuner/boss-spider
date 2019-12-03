@@ -65,6 +65,12 @@ for line in fSchool211.readlines() :
     school211.append(line.strip())
 fSchool211.close();
 
+schoolTop300 = []
+fSchoolTop300 = open(lastPath + '/config/school.txt','r')
+for line in fSchoolTop300.readlines() :
+    schoolTop300.append(line.strip().split('|')[1])
+fSchoolTop300.close();
+
 print(school985)
 print(school211)
 
@@ -185,8 +191,11 @@ while loop:
         for l in school211:
             if school == l:
                 hitSchool = True
+        for m in schoolTop300:
+            if school == m:
+                hitSchool = True
         if not hitSchool :
-            print("【过滤】：学校未达985 OR 211|" + school)
+            print("【过滤】：学校未达985 OR 211 OR top300|" + school)
             continue
 
 
@@ -206,12 +215,12 @@ while loop:
             # 与牛人打招呼
             greetToJobSeeker(uid, jid, expectId, lid, suid, headers)
             time.sleep(random.uniform(30,40))
-        if contactStatus == '继续沟通':
+       # if contactStatus == '继续沟通':
             # 向牛人发送简历申请
-            requestResumeToJobSeeker(uid)
+            # requestResumeToJobSeeker(uid)
             # 接受牛人简历
-            acceptResumeOfJobSeeker(uid)
-            time.sleep(random.uniform(30,40))
+            # acceptResumeOfJobSeeker(uid)
+            # time.sleep(random.uniform(30,40))
 
     page = page + 1
     randomTime = random.uniform(180,600)
